@@ -1,2 +1,2 @@
 # StateMachine
-a state machine implement by cpp.
+a state machine implemented by cpp.
