@@ -55,6 +55,8 @@ namespace lukaproject
   class StateMachine
   {
   public:
+    StateMachine() = default;
+
     StateMachine(
         std::vector<StateType> states,
         std::vector<Event> events,
@@ -71,6 +73,18 @@ namespace lukaproject
     bool IsFinal() const;
 
     bool Go(EventType event);
+
+    void Reset();
+
+    void Initial(
+        std::vector<StateType> states,
+        std::vector<Event> events,
+        std::string name,
+        StateType initial,
+        std::unordered_set<StateType> final_states);
+
+    void DebugPrintEvents();
+    void DebugPrintStates();
 
     ~StateMachine() = default;
 
