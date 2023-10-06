@@ -1,6 +1,10 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(StateMachine)
+project(
+  StateMachine
+  VERSION 0.0.1
+  LANGUAGES CXX
+)
 
 option(LUKA_STATEMACHINE_TEST "enable test cases" ON)
 
@@ -24,6 +28,7 @@ if (LUKA_STATEMACHINE_TEST)
   message("enable statemachine test cases")
   add_test_file(general_tests tests/general_tests.cc ${LUKAPROJECT_STATEMACHINE_LIB})
   add_test_file(event_tests tests/event_tests.cc ${LUKAPROJECT_STATEMACHINE_LIB})
+  add_test_file(fa_tests tests/fa_tests.cc ${LUKAPROJECT_STATEMACHINE_LIB})
 else()
   message("disable statemachine test cases")
 endif(LUKA_STATEMACHINE_TEST)

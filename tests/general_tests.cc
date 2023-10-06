@@ -9,9 +9,3 @@ using namespace lukaproject;
 class GeneralTest : public testing::Test
 {
 };
-
-TEST_F(GeneralTest, Test_StateMachine_EndWithZeroStringFA)
-{
-  EndWithZeroStringFA fa;
-  ASSERT_TRUE(fa.Accepted("00000101010101010101000"));
-}
