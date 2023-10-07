@@ -39,21 +39,35 @@ namespace lukaproject::StateMachineTest
               GetMinusSign,
               {
                   {Begin, SignedHead},
-                  {Broken, Broken},
-                  {NumberHead, Broken},
-                  {NumberNonHead, Broken},
-                  {SignedHead, Broken},
-                  {ZeroHead, Broken},
+              },
+              {
+                  {
+                      {
+                          Broken,
+                          NumberHead,
+                          NumberNonHead,
+                          SignedHead,
+                          ZeroHead,
+                      },
+                      Broken,
+                  },
               }),
           Event(
               GetPlusSign,
               {
                   {Begin, SignedHead},
-                  {Broken, Broken},
-                  {NumberHead, Broken},
-                  {NumberNonHead, Broken},
-                  {SignedHead, Broken},
-                  {ZeroHead, Broken},
+              },
+              {
+                  {
+                      {
+                          Broken,
+                          NumberHead,
+                          NumberNonHead,
+                          SignedHead,
+                          ZeroHead,
+                      },
+                      Broken,
+                  },
               }),
           Event(
               GetZero,
@@ -77,13 +91,19 @@ namespace lukaproject::StateMachineTest
               }),
           Event(
               GetIllegalChar,
+              {},
               {
-                  {Begin, Broken},
-                  {Broken, Broken},
-                  {NumberHead, Broken},
-                  {NumberNonHead, Broken},
-                  {ZeroHead, Broken},
-                  {SignedHead, Broken},
+                  {
+                      {
+                          Begin,
+                          Broken,
+                          NumberHead,
+                          NumberNonHead,
+                          SignedHead,
+                          ZeroHead,
+                      },
+                      Broken,
+                  },
               }),
       };
 

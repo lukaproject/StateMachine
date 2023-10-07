@@ -29,7 +29,17 @@ namespace lukaproject
   class Event
   {
   public:
-    Event(EventType event, std::set<EdgeType> edges = std::set<EdgeType>());
+    //
+    // event : event name
+    // edges : event edges
+    // sameTargetEdges: some states will route to the same target in
+    //                  this event. like (s1->s5, s2->s5, s3->s5, s4->s5, s5->s5) can be
+    //                  summarized to (s1, s2, s3, s4, s5) -> s5
+    //
+    Event(
+        EventType event,
+        std::set<EdgeType> edges = {},
+        std::vector<std::tuple<std::set<StateType>, StateType>> sameTargetEdges = {});
     StateType EventName() const;
 
     // --
@@ -50,6 +60,7 @@ namespace lukaproject
 
     void AddEdge(StateType from, StateType target);
     void AddEdge(EdgeType edge);
+    void AddEdges(std::set<StateType> froms, StateType target);
     void RemoveEdge(EdgeType edge);
 
     ~Event() = default;

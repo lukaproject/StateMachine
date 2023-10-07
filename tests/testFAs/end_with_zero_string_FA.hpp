@@ -73,17 +73,22 @@ namespace lukaproject::StateMachineTest
       Reset();
       for (const auto &c : str)
       {
+        bool ok = true;
         if (c == '0')
         {
-          Go(GetZero);
+          ok = Go(GetZero);
         }
         else if (c == '1')
         {
-          Go(GetOne);
+          ok = Go(GetOne);
         }
         else
         {
-          Go(GetOther);
+          ok = Go(GetOther);
+        }
+        if (!ok)
+        {
+          return false;
         }
       }
       LOG(INFO) << State();

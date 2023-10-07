@@ -6,8 +6,15 @@ namespace lukaproject
 {
   Event::Event(
       EventType event,
-      std::set<EdgeType> edges)
-      : event_(event), edges_(edges) {}
+      std::set<EdgeType> edges,
+      std::vector<std::tuple<std::set<StateType>, StateType>> sameTargetEdges)
+      : event_(event), edges_(edges)
+  {
+    for (const auto &sameTargetEdge : sameTargetEdges)
+    {
+      AddEdges(std::get<0>(sameTargetEdge), std::get<1>(sameTargetEdge));
+    }
+  }
 
   EventType Event::EventName() const
   {
@@ -60,6 +67,14 @@ namespace lukaproject
       return;
     }
     edges_.insert(edge);
+  }
+
+  void Event::AddEdges(std::set<StateType> froms, StateType target)
+  {
+    for (const auto &from : froms)
+    {
+      AddEdge(from, target);
+    }
   }
 
   void Event::RemoveEdge(EdgeType edge)
