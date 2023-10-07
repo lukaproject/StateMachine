@@ -1,4 +1,3 @@
-#pragma once
 #ifndef LUKAPROJECT_STATE_MACHINE_STATE_MACHINE_HPP_
 #define LUKAPROJECT_STATE_MACHINE_STATE_MACHINE_HPP_
 
@@ -33,12 +32,20 @@ namespace lukaproject
     Event(EventType event, std::set<EdgeType> edges = std::set<EdgeType>());
     StateType EventName() const;
 
+    // --
+    // in order to use foreach to got all the edges
+    // from this event.
     std::set<EdgeType>::const_iterator cbegin() const;
     std::set<EdgeType>::const_iterator cend() const;
     std::set<EdgeType>::iterator begin();
     std::set<EdgeType>::iterator end();
+    // --
 
+    // Check if this edge is existed in this event.
     bool Exist(StateType from, StateType target) const;
+
+    // Get this event's next state from state `from`,
+    // otherwise nullopt.
     std::optional<StateType> Then(StateType from) const;
 
     void AddEdge(StateType from, StateType target);
@@ -64,16 +71,25 @@ namespace lukaproject
         StateType initial,
         std::unordered_set<StateType> final_states);
 
+    // Check if now can do this event. if it can do,
+    // return true, otherwise return false.
     bool Can(EventType event) const;
 
+    // current state.
     StateType State() const;
 
     std::string MachineName() const;
 
+    // Check if it is final state.
     bool IsFinal() const;
 
+    // Execute this event to this machine, if there
+    // is an event from now state to next state, return
+    // true and fallthrough to the next state, otherwise
+    // return false and do nothing.
     bool Go(EventType event);
 
+    // Reset the current state to initial state.
     void Reset();
 
     void Initial(
