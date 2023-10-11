@@ -63,6 +63,9 @@ namespace lukaproject
     void AddEdges(std::set<StateType> froms, StateType target);
     void RemoveEdge(EdgeType edge);
 
+    std::string ToString() const;
+    static Event FromString(const std::string &str);
+
     ~Event() = default;
 
   private:
@@ -112,6 +115,12 @@ namespace lukaproject
 
     void DebugPrintEvents();
     void DebugPrintStates();
+
+    // Unserialize string to state machine.
+    void FromString(const std::string &str);
+
+    // Serialize state machine to string.
+    std::string ToString();
 
     ~StateMachine() = default;
 

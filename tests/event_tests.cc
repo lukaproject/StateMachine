@@ -24,3 +24,12 @@ TEST_F(EventTests, Then_test)
   ASSERT_EQ(e.Then("yellow").value(), "red");
   ASSERT_EQ(e.Then("black"), std::nullopt);
 }
+
+TEST_F(EventTests, to_string)
+{
+  Event e("panic");
+  e.AddEdge("green", "red");
+  e.AddEdge("yellow", "red");
+
+  ASSERT_EQ("(green|red),(yellow|red),", e.ToString());
+}

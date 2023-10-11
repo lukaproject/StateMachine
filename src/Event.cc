@@ -1,4 +1,6 @@
 #include <cassert>
+#include <sstream>
+#include <glog/logging.h>
 
 #include "StateMachine/StateMachine.hpp"
 
@@ -26,6 +28,7 @@ namespace lukaproject
     return edges_.cbegin();
   }
   std::set<EdgeType>::const_iterator Event::cend() const
+
   {
     return edges_.cend();
   }
@@ -34,6 +37,7 @@ namespace lukaproject
   {
     return edges_.begin();
   }
+
   std::set<EdgeType>::iterator Event::end()
   {
     return edges_.end();
@@ -81,4 +85,58 @@ namespace lukaproject
   {
     edges_.erase(edge);
   }
+
+  std::string Event::ToString() const
+  {
+    std::stringstream res;
+    res << event_ << ":";
+    for (const auto &edge : edges_)
+    {
+      res << "(" << From(edge) << "|" << Target(edge) << "),";
+    }
+    return res.str();
+  }
+
+  Event Event::FromString(const std::string &str)
+  {
+    int idx = 0, n = str.size();
+    std::string event;
+    for (; idx < n; idx++)
+    {
+      if (str[idx] != ':')
+      {
+        event.push_back(str[idx]);
+      }
+      else
+      {
+        idx++;
+        break;
+      }
+    }
+
+    Event e(event);
+    std::string s;
+    LOG(INFO) << event;
+    for (; idx < n; idx++)
+    {
+      if (str[idx] != ',')
+      {
+        s.push_back(str[idx]);
+      }
+      else
+      {
+        int j = 0, l = s.size();
+        for (; j < l && s[j] != '|'; j++)
+          ;
+
+        e.AddEdge(s.substr(1, j - 1), s.substr(j + 1, l - j - 2));
+
+        LOG(INFO) << s.substr(1, j - 1) << "," << s.substr(j + 1, l - j - 2);
+        s = "";
+      }
+    }
+
+    return e;
+  }
+
 } // namespace lukaproject

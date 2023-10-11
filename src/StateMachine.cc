@@ -119,4 +119,107 @@ namespace lukaproject
     return std::nullopt;
   }
 
+  void StateMachine::FromString(const std::string &str)
+  {
+    int idx = 0, n = str.size();
+    name_ = "";
+    initial_ = "";
+    now_ = "";
+    auto f = [](int &i, const int &n, const std::string &s, std::string &res)
+    {
+      for (; i < n; i++)
+      {
+        if (s[i] != '\n')
+        {
+          res.push_back(s[i]);
+        }
+        else
+        {
+          i++;
+          return;
+        }
+      }
+    };
+
+    f(idx, n, str, name_);
+    f(idx, n, str, initial_);
+    f(idx, n, str, now_);
+
+    states_.clear();
+    events_.clear();
+    std::vector<std::string> rest;
+    std::string s;
+    for (; idx < n; idx++)
+    {
+      if (str[idx] != '\n')
+      {
+        s.push_back(str[idx]);
+      }
+      else
+      {
+        rest.push_back(s);
+        s = "";
+      }
+    }
+
+    for (int i = 0; i < ((int)rest.size()) - 1; i++)
+    {
+      auto e = Event::FromString(rest[i]);
+      events_.insert({e.EventName(), e});
+      for (const auto &edge : e)
+      {
+        auto g = [](std::unordered_map<lukaproject::StateType, std::unordered_set<lukaproject::StateType>> &states,
+                    const StateType &state,
+                    const EventType &eventName)
+        {
+          if (states.find(state) == states.end())
+          {
+            states.insert({state, std::unordered_set<EventType>()});
+          }
+          states[state].insert(eventName);
+        };
+
+        g(states_, From(edge), e.EventName());
+        g(states_, Target(edge), e.EventName());
+      }
+    }
+
+    final_states_.clear();
+    auto final_states_str = rest.back();
+    s = "";
+    for (auto c : final_states_str)
+    {
+      if (c != ',')
+      {
+        s.push_back(c);
+      }
+      else
+      {
+        final_states_.insert(s);
+        s = "";
+      }
+    }
+  }
+
+  std::string StateMachine::ToString()
+  {
+    std::stringstream res;
+
+    res << name_ << "\n"
+        << initial_ << "\n"
+        << now_ << "\n";
+
+    for (auto &p : events_)
+    {
+      res << p.second.ToString() << "\n";
+    }
+    for (auto &state : final_states_)
+    {
+      res << state << ",";
+    }
+    res << "\n";
+
+    return res.str();
+  }
+
 } // namespace lukaproject
