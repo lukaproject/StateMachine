@@ -6,8 +6,6 @@ project(
   LANGUAGES CXX
 )
 
-option(LUKA_STATEMACHINE_TEST "enable test cases" ON)
-
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/glog.cmake)
@@ -25,9 +23,11 @@ target_include_directories(${LUKAPROJECT_STATEMACHINE_LIB} PUBLIC ${PROJECT_SOUR
 
 add_library(LukaProject::StateMachine ALIAS ${LUKAPROJECT_STATEMACHINE_LIB})
 
-if (LUKA_STATEMACHINE_TEST)
+include(CTest)
+
+if (BUILD_TESTING)
   message("enable statemachine test cases")
   add_subdirectory(tests)
 else()
   message("disable statemachine test cases")
-endif(LUKA_STATEMACHINE_TEST)
+endif()
