@@ -31,5 +31,5 @@ TEST_F(EventTests, to_string)
   e.AddEdge("green", "red");
   e.AddEdge("yellow", "red");
 
-  ASSERT_EQ("(green|red),(yellow|red),", e.ToString());
+  ASSERT_EQ("panic:(green|red),(yellow|red),", e.ToString());
 }
