@@ -16,19 +16,18 @@ include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/gtest.cmake)
 # library
 set(LUKAPROJECT_STATEMACHINE_LIB StateMachine)
 file(GLOB SRCS src/*.cc)
-message("SOURCES:  ${SRCS}")
+message("SOURCES: ${SRCS}")
 add_library(${LUKAPROJECT_STATEMACHINE_LIB} 
   ${SRCS}
 )
 target_link_libraries(${LUKAPROJECT_STATEMACHINE_LIB} glog::glog)
 target_include_directories(${LUKAPROJECT_STATEMACHINE_LIB} PUBLIC ${PROJECT_SOURCE_DIR}/include)
 
+add_library(LukaProject::StateMachine ALIAS ${LUKAPROJECT_STATEMACHINE_LIB})
 
 if (LUKA_STATEMACHINE_TEST)
   message("enable statemachine test cases")
-  add_test_file(general_tests tests/general_tests.cc ${LUKAPROJECT_STATEMACHINE_LIB})
-  add_test_file(event_tests tests/event_tests.cc ${LUKAPROJECT_STATEMACHINE_LIB})
-  add_test_file(fa_tests tests/fa_tests.cc ${LUKAPROJECT_STATEMACHINE_LIB})
+  add_subdirectory(tests)
 else()
   message("disable statemachine test cases")
 endif(LUKA_STATEMACHINE_TEST)

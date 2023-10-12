@@ -53,7 +53,9 @@ namespace lukaproject
   {
     auto it = edges_.lower_bound({from, ""});
     if (it != edges_.end() && From(*it) == from)
+    {
       return Target(*it);
+    }
     return std::nullopt;
   }
 
@@ -116,7 +118,6 @@ namespace lukaproject
 
     Event e(event);
     std::string s;
-    LOG(INFO) << event;
     for (; idx < n; idx++)
     {
       if (str[idx] != ',')
@@ -130,8 +131,6 @@ namespace lukaproject
           ;
 
         e.AddEdge(s.substr(1, j - 1), s.substr(j + 1, l - j - 2));
-
-        LOG(INFO) << s.substr(1, j - 1) << "," << s.substr(j + 1, l - j - 2);
         s = "";
       }
     }
