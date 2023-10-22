@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.11)
 
 project(
   StateMachine
@@ -15,10 +15,12 @@ include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/gtest.cmake)
 set(LUKAPROJECT_STATEMACHINE_LIB StateMachine)
 file(GLOB SRCS src/*.cc)
 message("SOURCES: ${SRCS}")
-add_library(${LUKAPROJECT_STATEMACHINE_LIB} 
+add_library(
+  ${LUKAPROJECT_STATEMACHINE_LIB}
+  STATIC
   ${SRCS}
 )
-target_link_libraries(${LUKAPROJECT_STATEMACHINE_LIB} glog::glog)
+target_link_libraries(${LUKAPROJECT_STATEMACHINE_LIB})
 target_include_directories(${LUKAPROJECT_STATEMACHINE_LIB} PUBLIC ${PROJECT_SOURCE_DIR}/include)
 
 add_library(LukaProject::StateMachine ALIAS ${LUKAPROJECT_STATEMACHINE_LIB})

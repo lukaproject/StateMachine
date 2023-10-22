@@ -113,9 +113,6 @@ namespace lukaproject
         StateType initial,
         std::unordered_set<StateType> final_states);
 
-    void DebugPrintEvents();
-    void DebugPrintStates();
-
     // Unserialize string to state machine.
     void FromString(const std::string &str);
 

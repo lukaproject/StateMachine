@@ -1,6 +1,5 @@
 #include <cassert>
 #include <sstream>
-#include <glog/logging.h>
 
 #include "StateMachine/StateMachine.hpp"
 

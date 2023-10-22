@@ -8,6 +8,7 @@ function(add_test_file TEST_NAME TEST_SRC LINK_LIBS)
     ${LINK_LIBS}
     GTest::GTest
     GTest::Main
+    glog::glog
   )
   add_test(${TEST_NAME} ${TEST_NAME})
 endfunction(add_test_file)

@@ -1,8 +1,6 @@
 #include <cassert>
-
+#include <sstream>
 #include "StateMachine/StateMachine.hpp"
-
-#include <glog/logging.h>
 
 namespace lukaproject
 {
@@ -81,32 +79,6 @@ namespace lukaproject
   void StateMachine::Reset()
   {
     now_ = initial_;
-  }
-
-  void StateMachine::DebugPrintEvents()
-  {
-    LOG(INFO) << "Debug print events";
-    for (auto &e : events_)
-    {
-      LOG(INFO) << e.first;
-      for (const auto &edge : e.second)
-      {
-        LOG(INFO) << From(edge) << "," << Target(edge);
-      }
-    }
-  }
-
-  void StateMachine::DebugPrintStates()
-  {
-    LOG(INFO) << "Debug print states";
-    for (auto &s : states_)
-    {
-      LOG(INFO) << "states:" << s.first;
-      for (const auto &event : s.second)
-      {
-        LOG(INFO) << event;
-      }
-    }
   }
 
   std::optional<StateType> StateMachine::_CanGoNext(EventType eventName) const
